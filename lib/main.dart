@@ -1,39 +1,66 @@
 import 'package:flutter/material.dart';
-import './homePage.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
-void main() {
+import 'home_page.dart';
+import 'recentpage.dart';
+import 'add_page.dart';
+import './data/resume_context.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized;
+
+  final context = new ResumeContext();
+
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  int _selectedPageIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Resume App',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a blue toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme:
-            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 69, 174, 169)),
-        useMaterial3: true,
-      ),
-      home: const HomePage(title: 'My Own Home Page'),
-    );
+        title: 'Resume App',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: Color.fromARGB(255, 69, 174, 169)),
+          useMaterial3: true,
+        ),
+        home: Scaffold(
+          body: [
+            const HomePage(title: 'Домашняя'),
+            const AddPage(title: 'Новое резюме'),
+            const RecentPage(title: 'Предыдующие')
+          ][_selectedPageIndex],
+          bottomNavigationBar: NavigationBar(
+              selectedIndex: _selectedPageIndex,
+              onDestinationSelected: (int index) {
+                setState(() {
+                  _selectedPageIndex = index;
+                });
+              },
+              destinations: const [
+                NavigationDestination(
+                    icon: Icon(Icons.home),
+                    selectedIcon: Icon(Icons.home_outlined),
+                    label: 'Главная'),
+                NavigationDestination(
+                    icon: Icon(Icons.add_circle_rounded),
+                    selectedIcon: Icon(Icons.add_circle_outline_rounded),
+                    label: 'Создать'),
+                NavigationDestination(
+                    icon: Icon(Icons.recent_actors),
+                    selectedIcon: Icon(Icons.recent_actors_outlined),
+                    label: 'Мои резюме')
+              ]),
+        ));
   }
 }

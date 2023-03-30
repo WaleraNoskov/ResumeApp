@@ -16,10 +16,7 @@ class _HomePageState extends State<HomePage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text('Hello world!'),
-            Text('It\'s my first flutter app!')
-          ],
+          children: <Widget>[Text('HomePage')],
         ),
       ),
     );
