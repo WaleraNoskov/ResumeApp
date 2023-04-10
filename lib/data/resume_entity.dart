@@ -1,5 +1,5 @@
 class ResumeEntity {
-  final int id;
+  int? id;
 
   final String firstName;
   final String lastName;
@@ -45,7 +45,6 @@ class ResumeEntity {
   }
 
   ResumeEntity(
-      this.id,
       this.firstName,
       this.lastName,
       this.surname,

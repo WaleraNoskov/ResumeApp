@@ -3,14 +3,12 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'home_page.dart';
-import 'recentpage.dart';
+import 'recent_page.dart';
 import 'add_page.dart';
 import './data/resume_context.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized;
-
-  final context = new ResumeContext();
 
   runApp(const MyApp());
 }
@@ -31,14 +29,14 @@ class _MyAppState extends State<MyApp> {
         title: 'Resume App',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
-              seedColor: Color.fromARGB(255, 69, 174, 169)),
+              seedColor: const Color.fromARGB(255, 69, 174, 169)),
           useMaterial3: true,
         ),
         home: Scaffold(
           body: [
             const HomePage(title: 'Домашняя'),
             const AddPage(title: 'Новое резюме'),
-            const RecentPage(title: 'Предыдующие')
+            RecentPage(title: 'Предыдующие')
           ][_selectedPageIndex],
           bottomNavigationBar: NavigationBar(
               selectedIndex: _selectedPageIndex,
